@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TodoApi.Models;
 using TodoAPIs.Model;
+using TodoAPIs.Services;
 
 
 namespace TodoAPIs.Controllers
@@ -11,10 +12,18 @@ namespace TodoAPIs.Controllers
     public class TodoItemController : ControllerBase
     {
         private readonly TodoContext _context;
+        private readonly ITodoService _iTodoService;
 
-        public TodoItemController(TodoContext context)
+        public TodoItemController(TodoContext context, ITodoService iTodoService)
         {
             _context = context;
+            _iTodoService = iTodoService;
+        }
+        // GET: api/TodoItem/All
+        [HttpGet]
+        public async Task<List<TodoItem>> GetTodos()
+        {
+            return await _iTodoService.GetTodoItems();
         }
 
         // GET: api/TodoItem

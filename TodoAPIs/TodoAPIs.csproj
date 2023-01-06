@@ -27,6 +27,7 @@
       <Compile Remove="ViewModel\TodoContext.cs" />
       <Compile Remove="ViewModel\**" />
       <Compile Remove="Controllers\PostTodoItemController.cs" />
+      <Compile Remove="Services\TodoItemService.cs" />
     </ItemGroup>
 
     <ItemGroup>
