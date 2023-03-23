@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using TodoApi.Models;
 using TodoAPIs.Model;
 using TodoAPIs.Services;
@@ -19,28 +20,36 @@ namespace TodoAPIs.Controllers
             _context = context;
             _iTodoService = iTodoService;
         }
+
         // GET: api/TodoItem/All
         [HttpGet]
         public async Task<List<TodoItem>> GetTodos()
         {
             return await _iTodoService.GetTodoItems();
         }
-        
+
         // GET: api/TodoItem
-        [HttpGet("{id}")]
+        /*[HttpGet("{id}")]
         public async Task<ActionResult<TodoItem>> GetTodo(long id)
         {
-            return await _iTodoService.GetTodoItem(id);
-        }
+            var todoItem =  await _iTodoService.GetTodoItem(id);
+            if (todoItem == null)
+            {
+                return NotFound();
+            }
 
-        /*// GET: api/TodoItem
+            return todoItem;
+        }*/
+
+        // GET: api/TodoItem
         [HttpGet("{id}")]
         public async Task<ActionResult<TodoItem>> GetTodoItem(long id)
         {
-          if (_context.TodoItems == null)
-          {
-              return NotFound();
-          }
+            if (_context.TodoItems == null)
+            {
+                return NotFound();
+            }
+
             var todoItem = await _context.TodoItems.FindAsync(id);
 
             if (todoItem == null)
@@ -49,27 +58,25 @@ namespace TodoAPIs.Controllers
             }
 
             return todoItem;
-        }*/
-        
-       
+        }
 
 
 
-        //Put: api/TodoItem
+
+
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTodoItem(long id, TodoItem todoItem)
+        public async Task<IActionResult> updateTodoItem(long id, [FromBody] TodoItem todoItem)
         {
             
-            if (id != todoItem.Id)
-            
-            {
-                return BadRequest();
-            }
 
             _context.Entry(todoItem).State = EntityState.Modified;
-
             try
             {
+                if (id != todoItem.Id)
+                {
+                    return BadRequest();
+                }
+                
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -85,8 +92,8 @@ namespace TodoAPIs.Controllers
             }
 
             return NoContent();
-        }
-
+        
+    }
        
 
 
@@ -98,7 +105,7 @@ namespace TodoAPIs.Controllers
             _context.TodoItems.Add(todoItem);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetTodo), new { id = todoItem.Id }, todoItem);
+            return CreatedAtAction(nameof(GetTodoItem), new { id = todoItem.Id }, todoItem);
         }
         
         

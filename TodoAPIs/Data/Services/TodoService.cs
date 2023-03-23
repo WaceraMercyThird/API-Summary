@@ -21,22 +21,6 @@ public class TodoService : ITodoService
 
     public async Task<TodoItem> GetTodoItem(long id)
     {
-        if (_context.TodoItems == null)
-        {
-            return NotFound();
-        }
-        var todoItem = await _context.TodoItems.FindAsync(id);
-
-        if (todoItem == null)
-        {
-            return NotFound();
-        }
-
-        return todoItem;
-    }
-
-    private TodoItem NotFound()
-    {
-        throw new NotImplementedException();
+        return await _context.TodoItems.FindAsync(id);
     }
 }

@@ -21,6 +21,7 @@
     <ItemGroup>
       <None Remove="Models" />
       <None Remove="ViewModel\**" />
+      <None Remove="Interface\**" />
     </ItemGroup>
 
     <ItemGroup>
@@ -28,14 +29,21 @@
       <Compile Remove="ViewModel\**" />
       <Compile Remove="Controllers\PostTodoItemController.cs" />
       <Compile Remove="Services\TodoItemService.cs" />
+      <Compile Remove="Interface\**" />
     </ItemGroup>
 
     <ItemGroup>
       <EmbeddedResource Remove="ViewModel\**" />
+      <EmbeddedResource Remove="Interface\**" />
     </ItemGroup>
 
     <ItemGroup>
       <Content Remove="ViewModel\**" />
+      <Content Remove="Interface\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Data" />
     </ItemGroup>
 
 </Project>
